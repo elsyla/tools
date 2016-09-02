@@ -11,3 +11,6 @@ lib/utils.py - top-level Command, Host and <subclass>Host, and Utils classes<br>
 lib/jmon_utils.py - second-level <subclass>Host and JenkinsMonitoring classes<br>
 lib/project.py - top-level generic Project class<br>
 lib/webapp.py - second-level Webapp class<br>
+
+# configs
+config/template.properties - template of Webapp for cloning new and/or updating existing projects
