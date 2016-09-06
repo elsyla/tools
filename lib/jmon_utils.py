@@ -25,7 +25,7 @@ class JenkinsHost(UbuntuHost):
         mplugins = []
         fplugins = []
         # get list of installed plugins
-        for file in os.listdir('/opt/data/jenkins/plugins'):
+        for file in os.listdir('/var/lib/jenkins/plugins'):
             if re.match('.+\.jpi', file):
                 iplugins.append(file)
         for plugin, required in rplugins.items():
