@@ -18,9 +18,8 @@ class JenkinsHost(UbuntuHost):
     def check_jenkins_plugins(self):
         print('Checking Jenkins plugins')
         ok = True
-        rplugins = {'svn-importer-plugin.jpi': 1, 'build-blocker-plugin.jpi': 1,
-                    'purge-build-queue-plugin.jpi': 0, 'purge-job-history.jpi': 0,
-                    'push-master-flash.jpi': 0}
+        rplugins = {'build-blocker-plugin.jpi': 1,
+                    'purge-build-queue-plugin.jpi': 0, 'purge-job-history.jpi': 0}
         iplugins = []
         mplugins = []
         fplugins = []
