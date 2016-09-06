@@ -52,8 +52,8 @@ class JenkinsHost(UbuntuHost):
         print('Purging Jenkins build logs over {} days old'.format(days))
         ok = True
         today = date.today()
-        # find list of jobs in /opt/data/jenkins/jobs
-        jpath = '/opt/data/jenkins/jobs'
+        # find list of jobs
+        jpath = '/var/lib/jenkins/jobs'
         if not os.path.exists(jpath):
             exit_err('Jenkins build logs path {} does not exist'.format(jpath))
         for job in os.listdir(jpath):
