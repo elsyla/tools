@@ -16,7 +16,8 @@ def parse_args():
     parser.add_argument('--property_file',
                         help='file containing project properties')
     parser.add_argument('--project_type', help='project type [webapp, ...]')
-    parser.add_argument('--action', help='perform action corresponding to script/<project_type>/<action>.py')
+    parser.add_argument('--script', help='run script/<project_type>/<script>')
+    parser.add_argument('--function', help='perform function corresponding to Webapp.<function> method')
     parser.add_argument('--dryrun', action='store_true',
                         help="show what would be done but do not perform the actual underlying action")
     parser.add_argument('-d', '--debug', action='store_true', help='for development purpose only')
@@ -26,8 +27,8 @@ def parse_args():
     if not args.project_type:
         print("Missing --project_type <projec_type_x>")
         exit(0)
-    if not (args.action or args.script):
-        print("Missing either --action <some_action> or --script <some_script>")
+    if not (args.function or args.script):
+        print("Missing either --function <value> or --script <value>")
         exit(0)
     return args
 

@@ -12,15 +12,19 @@ class Project:
 
     def commit(self):
         print("Building (commit) %s".format(self.name))
+        return True
 
     def component(self):
         print("Building (component) {}".format(self.name))
+        return True
 
     def deploy(self):
         print("Deploying {}".format(self.name))
+        return True
 
     def certify(self):
         print("Certifying {}".format(self.name))
+        return True
 
     def execute(self):
         print("Executing {}".format(self.name))
