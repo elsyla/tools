@@ -15,3 +15,4 @@ lib/webapp.py - second-level Webapp class<br>
 
 # configs
 config/template.properties - config file of template Webapp for cloning new and/or updating existing projects<br>
+config/jmon.properties - config file of jenkins monitoring and provisioning utility job
