@@ -1,5 +1,4 @@
 # central tools and collaborative automation framework
-#
 
 # binaries
 bin/jcli.py - Jenkins Command-Line Interface<br>
