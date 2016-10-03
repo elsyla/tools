@@ -20,4 +20,7 @@ node {
       junit '**/target/surefire-reports/TEST-*.xml'
       archive 'target/*.jar'
    }
+   stage('Shell') {
+      sh 'echo hello world'
+   }
 }
