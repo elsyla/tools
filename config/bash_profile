@@ -1,0 +1,54 @@
+# Setting PATH for Python 3.5
+# The original version is saved in .bash_profile.pysave
+PATH="/Library/Frameworks/Python.framework/Versions/3.5/bin:${PATH}"
+export PATH
+
+# docker commands
+alias do='docker'
+alias dohe='docker help'
+alias doki='docker kill'
+alias dops='docker ps'
+alias doim='docker images'
+alias doru='docker run'
+alias doex='docker exec'
+alias dorm='docker rmi'
+alias dobu='docker build'
+
+# git commands
+alias gidi='git diff'
+alias gipl='git pull'
+alias giph='git push'
+alias gist='git status'
+alias giad='git add .'
+alias gici='git commit -am "wip"'
+alias gicp='git commit -am "wip" && git push'
+
+# general
+alias cdt='cd ~/tools'
+alias lt='ls -lrt'
+alias ll='ls -l'
+alias vip='vi ~/.bash_profile; source ~/.bash_profile'
+alias h='history 100'
+alias catpk='cat ~/utils/pubkeys'
+
+# ssh shortcuts
+alias ssh.pit-jenkins='ssh pit-jenkins.np.wc1.yellowpages.com'
+alias ssh.pot-jenkins='ssh pot-jenkins.np.wc1.yellowpages.com'
+alias ssh.diycd='ssh -i ~/.ssh/awskeypair.pem ubuntu@diycd.net'
+alias ssh.jira-inc.wc1='ssh jira-inc.wc1.yellowpages.com'
+alias ssh.jira1.ev1='ssh jira1.ev1.yellowpages.com'
+alias ssh.jira1.wc1='ssh jira1.wc1.yellowpages.com'
+alias ssh.jiraenduser1.ev1='ssh jiraenduser1.ev1.yellowpages.com'
+alias ssh.jiraenduser1.wc1='ssh jiraenduser1.wc1.yellowpages.com'
+# sandbox jira 6.x and 7.x
+alias ssh.test-jira2.np.wc1='ssh test-jira2.np.wc1.yellowpages.com'
+alias ssh.dev-inc2.np.ev1='ssh dev-inc2.np.ev1.yellowpages.com'
+# sanbox for confluence
+alias ssh.dev-wiki.np.wc1='ssh dev-wiki.np.wc1.yellowpages.com'
+# aws diycd.net
+alias sshaws='ssh -i ~/.ssh/awskeypair.pem ubuntu@diycd.net'
+
+# Setting PATH for Python 3.5
+# The original version is saved in .bash_profile.pysave
+PATH="/Library/Frameworks/Python.framework/Versions/3.5/bin:${PATH}"
+export PATH
