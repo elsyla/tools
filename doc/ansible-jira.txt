@@ -1,0 +1,80 @@
+# Platform = Centos/RHEL 7 
+
+$ tree
+.
+├── README.md
+├── admin
+│   ├── backup-data.yml
+│   ├── backup-database.yml
+│   ├── clean-diskspace.yml
+│   ├── configure-environments.yml
+│   ├── configure_environments.py
+│   ├── create-live-thread-dump.yml
+│   ├── create_thread_dump.sh
+│   ├── edit-jira-ticket.yml
+│   ├── restart-live-service.yml
+│   ├── restart-service.yml
+│   ├── show-resources.yml
+│   ├── stop-service.yml
+│   ├── test-jira-module.yml
+│   ├── toggle-service-status.yml
+│   ├── toggle-service.yml
+│   ├── update-data.yml
+│   └── update-database.yml
+├── inventory
+│   ├── all
+│   ├── blue
+│   ├── default
+│   ├── green
+│   ├── inactive
+│   └── live
+├── roles
+│   ├── common
+│   │   └── tasks
+│   │       └── main.yml
+│   └── servers
+│       ├── files
+│       │   ├── etc
+│       │   │   ├── init.d
+│       │   │   │   └── jira
+│       │   │   ├── logrotate.d
+│       │   │   │   └── jira
+│       │   │   └── systemd
+│       │   │       └── system
+│       │   │           └── jira.service
+│       │   └── opt
+│       │       ├── archive
+│       │       │   ├── README.txt
+│       │       │   ├── atlassian-jira-software-7.1.0-jira-7.1.0.tar.gz
+│       │       │   ├── atlassian-jira-software-7.2.7.tar.gz
+│       │       │   └── rsync-exclude-list.txt
+│       │       └── atlassian
+│       │           ├── jira
+│       │           │   ├── atlassian-jira
+│       │           │   │   └── WEB-INF
+│       │           │   │       └── classes
+│       │           │   │           ├── com
+│       │           │   │           └── jira-application.properties
+│       │           │   ├── bin
+│       │           │   │   ├── catalina.sh
+│       │           │   │   └── setenv.sh
+│       │           │   └── conf
+│       │           │       └── server.xml
+│       │           └── jira-data
+│       │               ├── dbconfig.xml.blue
+│       │               ├── dbconfig.xml.green
+│       │               ├── jira-config.properties
+│       │               └── logos
+│       │                   ├── jira-favicon-hires.png
+│       │                   ├── jira-favicon-original.png
+│       │                   ├── jira-favicon-scaled.ico
+│       │                   ├── jira-favicon-scaled.png
+│       │                   ├── jira-logo-original.png
+│       │                   └── jira-logo-scaled.png
+│       ├── tasks
+│       │   └── main.yml
+│       └── vars
+│           └── main.yml
+└── servers.yml
+
+26 directories, 48 files
