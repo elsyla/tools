@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
+# https://media.readthedocs.org/pdf/python-jenkins/latest/python-jenkins.pdf
 
-import re
-import os
-import sys
+import re, os, sys
 import jenkins
 import argparse
+import subprocess
+import datetime
+import shutil
 
 # globals
-script = 'jcli'
+script = 'jenkins_cli'
 workdir = '/var/tmp/' + script
 
 
@@ -33,6 +35,8 @@ def parse_args():
     parser.add_argument('--delete_jobs', action='store_true', help='Delete jobs matching --jobname_regex')
     parser.add_argument('--build_jobs', action='store_true',
                         help='Run jobs matching --jobname_regex.  Still WIP - not fully implement yet.')
+    parser.add_argument('--fetch_jobs', action='store_true',
+                        help='Download xml configs of jobs matching --jobname_regex to current directory.')
     parser.add_argument('--grep_jobs', action='store_true',
                         help='Grep jobs for given pattern per --grep_content_pattern')
     parser.add_argument('--grep_content_pattern',
@@ -59,7 +63,8 @@ def parse_args():
                              'it in during runtime.')
     parser.add_argument('--password',
                         help='Login password.  If not specified at command line, you will be asked to enter '
-                             'it in during runtime.')
+                             'it in during runtime.  Note: If Jenkins is using CAS (as apposed to LDAP), then '
+                             'use assigned Jenkins API token instead of user password.')
     args = parser.parse_args()
 
     if not os.path.exists(workdir):
@@ -73,10 +78,11 @@ def parse_args():
 
     if not (args.clone_jobs or args.update_jobs or args.disable_jobs or args.enable_jobs
             or args.build_jobs or args.delete_jobs or args.show_jobs or args.grep_jobs
-            or args.rename_jobs):
+            or args.rename_jobs or args.fetch_jobs):
         print(
             "Missing one of these action flags: --clone_jobs, --update_jobs, --disable_jobs, "
-            "--enable_jobs, --build_jobs, --delete_jobs, --rename_jobs, --show_jobs, --grep_jobs")
+            "--enable_jobs, --build_jobs, --delete_jobs, --rename_jobs, --show_jobs, --grep_jobs,"
+            "--fetch_jobs")
         exit(0)
 
     if args.grep_jobs and not args.grep_content_pattern:
@@ -111,13 +117,9 @@ def parse_args():
 
 
 def create_server_instances(args):
-    # jenkins_url = "https://jenkins.iapps.apple.com/preview-int/"
     uname = args.user
     pw = args.password
-    # old name, should be removed eventually
-    pwfile = os.environ['HOME'] + '/.jencli'
-    if not os.path.isfile(pwfile):
-        pwfile = os.environ['HOME'] + '/.' + script
+    pwfile = os.environ['HOME'] + '/.' + script
     if os.path.isfile(pwfile):
         for line in open(pwfile, 'r'):
             line = line.strip()
@@ -127,7 +129,7 @@ def create_server_instances(args):
             elif key == 'PASSWORD':
                 pw = val
     else:
-        print('Note: To avoid password prompt, create {} with these line entries:'.format(
+        print('Note: To get rid of password prompt, create {} with these line entries:'.format(
             pwfile))
         print('USER=<your_username>\nPASSWORD=<your_password>')
     if not uname:
@@ -187,6 +189,7 @@ def prompt_continue():
     input("Pressing <return> to confirm action: ")
     return True
 
+
 def is_job_disabled(job, job_list):
     for ejob in job_list:
         if ejob['name'] == job:
@@ -196,6 +199,20 @@ def is_job_disabled(job, job_list):
                 return False
     print('ERROR: {} does not exist'.format(job))
     return False
+
+
+def run_cmd(cmd):
+    timestamp = '{:%Y-%m-%d %H:%M:%S}'.format(datetime.datetime.now())
+    print("%s: %s" % (timestamp, cmd))
+    proc = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    (out, err) = proc.communicate()
+    if out:
+        out = str(out, 'utf-8').rstrip('\n')
+        print(out)
+    if err:
+        err = str(err, 'utf-8').rstrip('\n')
+        print(err)
+    return proc.returncode
 
 
 def main():
@@ -210,6 +227,7 @@ def main():
     disable_jobs = args.disable_jobs
     enable_jobs = args.enable_jobs
     build_jobs = args.build_jobs
+    fetch_jobs = args.fetch_jobs
     delete_jobs = args.delete_jobs
     from_template = args.from_template
     property_file = args.property_file
@@ -229,9 +247,14 @@ def main():
     jobs = []
     for job in server_src.get_jobs():
         job_name = job['name']
-        result = re.search(jobname_regex, job_name)
+        try:
+            result = re.search(jobname_regex, job_name)
+        except:
+            print('ERROR: Cannot process jobname regex pattern \'{}\' - try something else.'.format(jobname_regex))
+            exit(1)
         if result:
             jobs.append(job_name)
+
     if jobs:
         print("Found {} matching source jobs:".format(len(jobs)))
         print(jobs)
@@ -331,6 +354,15 @@ def main():
         fh.write(config)
         fh.close()
 
+        if fetch_jobs:
+            # copy job xml to current directory
+            print("Fetching job")
+            if dryrun:
+                print("Dryrun mode - job won't be fetched to current directory")
+            else:
+                shutil.copyfile(file, job + '.xml')
+            continue
+
         if grep_jobs:
             print("Grepping job")
             rc = os.system('grep {} {}'.format(args.grep_content_pattern, file))
@@ -391,7 +423,7 @@ def main():
                 if dryrun:
                     print("Dryrun mode - job won't be updated")
                 else:
-                    job_is_disabled = is_job_disabled(job,job_list)
+                    job_is_disabled = is_job_disabled(job, job_list)
                     server_dest.reconfig_job(job, config)
                     # leave state of build the same as it was before update
                     if job_is_disabled:
@@ -405,6 +437,7 @@ def main():
                     print("Dryrun mode - job won't be created")
                 else:
                     server_dest.create_job(job, config)
+
 
 if __name__ == "__main__":
     main()

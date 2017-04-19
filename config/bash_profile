@@ -1,15 +1,30 @@
 # Setting PATH for Python 3.5
 # The original version is saved in .bash_profile.pysave
-PATH="/Library/Frameworks/Python.framework/Versions/3.5/bin:${PATH}"
-export PATH
+
+export HISTFILESIZE=2500
+export PATH="${HOME}/bin:/${HOME}/tools/bin:/Library/Frameworks/Python.framework/Versions/3.5/bin:${PATH}"
+export PYTHONPATH=$HOME/tools
+
+# jenkins cli
+alias jcli='jenkins_cli.py --src_jenkins_url http://pit-dockins.prod-wc1.ypec.yp.com/job/'
+alias tailjc='tail -10 /var/tmp/jenkins_cli/history'
 
 # docker commands
-alias do='docker'
+alias doc='docker'
+alias doin='docker inspect'
+alias docp='docker cp'
+alias doat='docker attach'
+alias dota='docker tag'
+alias dopus='docker push'
+alias dopusf='docker push docker.yp.com/pit/dockins-agent-pit-tools'
+alias dopul='docker pull'
+alias dodi='docker diff'
 alias dosto='docker stop'
 alias dosta='docker start'
 alias dohe='docker help'
 alias doki='docker kill'
 alias dops='docker ps'
+alias dopsa='docker ps -a'
 alias doim='docker images'
 alias doru='docker run'
 alias doex='docker exec'
@@ -17,37 +32,117 @@ alias dorm='docker rm'
 alias dormi='docker rmi'
 alias dorma='docker rm $(docker ps -a -q)'
 alias dobu='docker build'
+alias dormif='docker rmi docker.yp.com/pit/dockins-agent-pit-tools'
+alias doruf='docker run -it docker.yp.com/pit/dockins-agent-pit-tools bash'
+alias dobuf='docker build -t docker.yp.com/pit/dockins-agent-pit-tools .'
 
 # git commands
+alias gihe='git help'
+alias gime='git merge'
+alias gicl='git clone'
+alias gimv='git mv'
+alias girm='git rm'
+alias gibr='git branch'
+alias gico='git checkout'
+alias gire='git remote'
+alias gilo='git log'
 alias gidi='git diff'
-alias gipl='git pull'
-alias giph='git push'
+alias gipul='git pull'
+alias gipus='git push'
 alias gist='git status'
-alias giad='git add .'
+alias giad='git add'
 alias gici='git commit -am "wip"'
 alias gicp='git commit -am "wip" && git push'
 
 # general
+alias apc="ansible-playbook --extra-vars 'ansible_sudo_password=Qw123!@#er' -v"
+alias apcq="ansible-playbook --extra-vars 'ansible_sudo_password=Qw123!@#er'"
+alias cdj='cd ~/pit/jira-server'
+alias cdoj='cd ~/pit/opsjira-server'
+alias cdje='cd ~/pit/jiraenduser-server'
+alias cdjl='cd ~/jira/logs'
 alias cdt='cd ~/tools'
+alias cdpa='cd ~/pit/ansible-server'
+alias cdpr='cd ~/pit/redis-server'
+alias cdp='cd ~/pit'
+alias cda='cd ~/ansible'
+alias cdd='cd ~/dockins'
+alias cddj='cd ~/dockins/dockins-pit-jobs'
+alias cddp='cd ~/dockins/dockins-pit'
 alias lt='ls -lrt'
 alias ll='ls -l'
 alias vip='vi ~/.bash_profile; source ~/.bash_profile'
-alias h='history 100'
-alias catpk='cat ~/utils/pubkeys'
+alias h='history 500'
+alias hgrep='history 100 | grep'
+alias catpk='cat ~/util/pubkeys'
+alias catss='cat ~/util/secrets'
 
 # ssh shortcuts
+
+# confluence wiki.yp.com
+alias ssh.wiki='ssh wiki1.wc1.yellowpages.com'
+alias ssh.pit-elk.np='ssh pit-elk.np.wc1.yellowpages.com'
+alias ssh.test-opsjiradb.np='ssh test-opsjiradb.np.wc1.yellowpages.com'
+alias ssh.test-opsjira-db1.wc1='ssh test-opsjira-db1.np.wc1.yellowpages.com'
+alias ssh.test-opsjira1='ssh test-opsjira1.np.wc1.yellowpages.com'
+
+# jiraenduser test
+alias ssh.test-enduser1='ssh test-enduser1.np.wc1.yellowpages.com'
+
+# crucible
+alias ssh.prod477.wc1='ssh prod477.wc1.yellowpages.com'
+alias ssh.crucible.prod='ssh prod477.wc1.yellowpages.com'
+alias ssh.crucible.dev='ssh crucible1.prod.wc1.yellowpages.com'
+
+alias ssh.wiki1.wc1='ssh wiki1.wc1.yellowpages.com'
+alias ssh.pit-bitbucket.wc1='ssh pit-bitbucket.np.wc1.yellowpages.com'
+alias ssh.pit-bitbucket.ev1='ssh pit-bitbucket.np.ev1.yellowpages.com'
+alias ssh.dev-stash='ssh dev-stash.np.ev1.yellowpages.com'
+
+# bitbucket servers
+alias ssh.bitbucket.prod='ssh prod697.wc1.yellowpages.com'
+alias ssh.prod697.wc1='ssh prod697.wc1.yellowpages.com'
+alias ssh.prod698.wc1='ssh prod698.wc1.yellowpages.com'
+
+# confluence servers
+alias ssh.wiki.live='ssh wiki1.wc1.yellowpages.com'
+alias ssh.wiki.blue='ssh dev-wiki.np.wc1.yellowpages.com'
+alias ssh.wiki.green='ssh test-wiki2.np.wc1.yellowpages.com'
+
+alias ssh.pit-ansible.prod='ssh pit-ansible.prod.wc1.yellowpages.com'
+alias ssh.pit-artifactory.np='ssh pit-artifactory.np.wc1.yellowpages.com'
+alias ssh.prod673.ev1='ssh prod673.ev1.yellowpages.com'
+alias ssh.svn='ssh prod694.wc1.yellowpages.com'
+alias ssh.prod694.wc1='ssh prod694.wc1.yellowpages.com'
+alias ssh.prod695.wc1='ssh prod695.wc1.yellowpages.com'
+alias ssh.pit-redis.np='ssh pit-redis.np.wc1.yellowpages.com'
+alias ssh.pit-redis.prod='ssh pit-redis.prod.wc1.yellowpages.com'
+alias ssh.pit-sandbox.np='ssh pit-sandbox.np.wc1.yellowpages.com'
+alias ssh.prod31.wc1='ssh prod31.wc1.yellowpages.com'
+alias ssh.bb.prod697.wc1='ssh prod697.wc1.yellowpages.com'
+alias ssh.bb.prod698.wc1='ssh prod698.wc1.yellowpages.com'
 alias ssh.pit-jenkins='ssh pit-jenkins.np.wc1.yellowpages.com'
 alias ssh.pot-jenkins='ssh pot-jenkins.np.wc1.yellowpages.com'
 alias ssh.diycd='ssh -i ~/.ssh/awskeypair.pem ubuntu@diycd.net'
-alias ssh.jira-inc.wc1='ssh jira-inc.wc1.yellowpages.com'
-alias ssh.jira1.ev1='ssh jira1.ev1.yellowpages.com'
-alias ssh.jira1.wc1='ssh jira1.wc1.yellowpages.com'
+# postgres db
+alias ssh.dev-inc2b.np.ev1='ssh dev-inc2b.np.ev1.yellowpages.com'
+#alias ssh.dev-inc2.np.ev1='ssh dev-inc2.np.ev1.yellowpages.com'
+# jiraenduser.yp.com
+alias ssh.jiraenduser.yp='ssh jira-inc.wc1.yellowpages.com'
+# opsjira.yp.com
+alias ssh.opsjira.yp='ssh jira1.ev1.yellowpages.com'
+# jira.yp.com
+alias ssh.jira.yp='ssh jira1.wc1.yellowpages.com'
 alias ssh.jiraenduser1.ev1='ssh jiraenduser1.ev1.yellowpages.com'
 alias ssh.jiraenduser1.wc1='ssh jiraenduser1.wc1.yellowpages.com'
+alias ssh.stage-jiraenduserdb.prod.wc1='ssh stage-jiraenduserdb.prod.wc1.yellowpages.com'
 # sandbox jira 6.x and 7.x
 alias ssh.test-jira2.np.wc1='ssh test-jira2.np.wc1.yellowpages.com'
-alias ssh.dev-inc2.np.ev1='ssh dev-inc2.np.ev1.yellowpages.com'
 # sanbox for confluence
 alias ssh.dev-wiki.np.wc1='ssh dev-wiki.np.wc1.yellowpages.com'
 # aws diycd.net
 alias sshaws='ssh -i ~/.ssh/awskeypair.pem ubuntu@diycd.net'
+
+# redis cli
+alias reprod='redis-cli -h pit-redis.prod.wc1.yellowpages.com -p 6379'
+alias renp='redis-cli -h pit-redis.np.wc1.yellowpages.com -p 6379'
