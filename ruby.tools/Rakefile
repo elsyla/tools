@@ -1,0 +1,34 @@
+#!/usr/bin/env ruby
+
+# standard libs
+require 'yaml'
+require 'systemu'
+
+task :sayhi do
+  puts "hi"
+end
+
+task :sayhithere => [:sayhi] do
+  puts "there"
+end
+
+task :jenkins_start do
+  system "sudo service jenkins start"
+end
+
+task :jenkins_restart do
+  system "sudo service jenkins restart"
+end
+
+task :jenkins_stop do
+  system "sudo service jenkins stop"
+end
+
+task :fecru_start do
+  system "su -l fisheye -c '~/fecru/bin/start.sh'"
+end
+
+task :fecru_stop do
+  system "su -l fisheye -c '~/fecru/bin/stop.sh'"
+end
+

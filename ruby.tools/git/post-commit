@@ -1,0 +1,6 @@
+#!/bin/sh
+# one-time setup by manually copy this script to central git setup
+# sudo cp git/post-commit /usr/share/git-core/templates/hooks/post-commit
+
+GIT_URL=`git config --get remote.origin.url`
+curl http://diycd.net:8080/jenkins/git/notifyCommit?url=$GIT_URL
